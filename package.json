@@ -1,0 +1,16 @@
+{
+  "name": "vs-workforce-tracker",
+  "version": "1.0.0",
+  "description": "A simple server-side application that allows small business owners to manage their employees easily. It will enable them to define departments and various roles for the workforce.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^8.2.4",
+    "mysql2": "^3.6.5"
+  }
+}
