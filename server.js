@@ -27,8 +27,8 @@ inquirer
                const db = mysql.createConnection(
                     {
                          host: 'localhost',
-                         user: 'vigneswari',
-                         password: 'p@ssword@123',
+                         user: '',
+                         password: '',
                          database: 'workforcetracker_db'
                     },
                     console.log(`Connected to the workforcetracker_db database.`)
