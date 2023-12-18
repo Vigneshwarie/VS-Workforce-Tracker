@@ -89,6 +89,18 @@ inquirer
                                         console.log(result);
                                    }
                               });
+
+                              sql = 'INSERT INTO wt_hierarchy_relation (emp_id, manager_id) ' +
+                                        'VALUES ((SELECT emp_id FROM wt_employee WHERE first_name = ? AND last_name = ?), ' +
+                                   '(SELECT emp_id FROM wt_employee WHERE emp_role IN (SELECT role_id FROM wt_role WHERE job_title = ?)))';
+                              
+                              db.query(sql, [subEmpAnswers.vFirstName, subEmpAnswers.vLastName, subEmpAnswers.vManagerRole], (err, result) => {
+                                   if (err) {
+                                        console.log(err);
+                                   } else {
+                                        console.log(result);
+                                   }
+                              });
                          });              
                }
                else if (answers.userChoice === "View all Department") {
