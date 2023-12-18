@@ -1,4 +1,7 @@
---Data for Department Table
+/*
+Data for Department Table
+*/
+
 INSERT INTO wt_department (dept_name)
 VALUES ("Sales"),
        ("Marketing"),
@@ -7,7 +10,6 @@ VALUES ("Sales"),
        ("Finance"),
        ("Application Service"),
        ("Management");
-
 
 INSERT INTO wt_role (job_title, dept_id, salary)
 VALUES ("Sales Consultant", 1, 90000),
@@ -25,8 +27,12 @@ VALUES ("Sales Consultant", 1, 90000),
 ("Development Manager", 6, 210000),
 ("Director", 7, 510000);
 
---Without a thought built a bigger structure and struggled with numbers. I hope I mapped all roles and employees properly.--
--- Referred names from the site https://www.kaggle.com/datasets/williamlucas0/employee-sample-data --
+/*
+Without a thought built a bigger structure and struggled with numbers. I hope I mapped all roles and employees properly.
+
+Referred names from the site https://www.kaggle.com/datasets/williamlucas0/employee-sample-data 
+*/
+
 INSERT INTO wt_employee (first_name, last_name, emp_role)
 VALUES ("Jameson", "Thomas", 11), 
 ("Bella", "Wu", 11), 
@@ -49,20 +55,23 @@ VALUES ("Jameson", "Thomas", 11),
 
 INSERT INTO wt_hierarchy_relation (emp_id, manager_id)
 VALUES (1, 8),
-VALUES (2, 8),
-VALUES (3, 8),
-VALUES (4, 8),
-VALUES (5, 6),
-VALUES (6, 15),
-VALUES (7, 9),
-VALUES (8, 15),
-VALUES (9, 15),
-VALUES (10, 11),
-VALUES (11, 15),
-VALUES (12, 11),
-VALUES (13, 8),
-VALUES (14, 15),
-VALUES (15, NULL),
-VALUES (16, 8),
-VALUES (17, 6);
+ (2, 8),
+ (3, 8),
+ (4, 8),
+ (5, 6),
+ (6, 15),
+ (7, 9),
+ (8, 15),
+ (9, 15),
+ (10, 11),
+ (11, 15),
+ (12, 11),
+ (13, 8),
+ (14, 15),
+ (15, NULL),
+ (16, 8),
+ (17, 6);
+
+
+
 

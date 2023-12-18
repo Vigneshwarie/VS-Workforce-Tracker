@@ -16,4 +16,21 @@ inquirer
      .prompt(questions)
      .then((answers) => {
           console.log(answers.userChoice)
+
+          if (answers.userChoice) {
+               // Connect to database
+               const db = mysql.createConnection(
+                    {
+                         host: 'localhost',
+                         user: 'vigneswari',
+                         password: 'p@ssword@123',
+                         database: 'workforcetracker_db'
+                    },
+                    console.log(`Connected to the workforcetracker_db database.`)
+               );
+
+               db.query('SELECT * FROM wt_department', function (err, results) {
+                    console.log(results);
+               });
+          }
      });
