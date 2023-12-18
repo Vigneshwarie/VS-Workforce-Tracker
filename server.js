@@ -34,7 +34,26 @@ inquirer
                     console.log(`Connected to the workforcetracker_db database.`)
                );
                
-               if (answers.userChoice === "Add Employee") {
+               if (answers.userChoice === "Add Department") {
+                    inquirer
+                         .prompt([{
+                              name: "vDeptName",
+                              message: "Please enter the name of the department: ",
+                              type: "input"
+                         }])
+                         .then((subDeptAnswers) => { 
+                              sql = 'INSERT INTO wt_department (dept_name) VALUES (?)';
+
+                              db.query(sql, subDeptAnswers.vDeptName, (err, result) => {
+                                   if (err) {
+                                        console.log(err);
+                                   } else {
+                                        console.log(`Added ${subDeptAnswers.vDeptName} to the database`);
+                                   }
+                              });
+                         });
+               }
+               else if (answers.userChoice === "Add Employee") {
                     inquirer
                          .prompt([
                          {
