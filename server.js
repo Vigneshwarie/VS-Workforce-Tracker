@@ -22,15 +22,15 @@ inquirer
                const db = mysql.createConnection(
                     {
                          host: 'localhost',
-                         user: 'vigneswari',
-                         password: 'p@ssword@123',
+                         user: '',
+                         password: '',
                          database: 'workforcetracker_db'
                     },
                     console.log(`Connected to the workforcetracker_db database.`)
                );
 
-               db.query('SELECT * FROM wt_department', function (err, results) {
-                    console.log(results);
+               db.query('SELECT dept_id as "Department ID", dept_name as "Department Name" FROM wt_department', function (err, results) {
+                    return console.table(results);
                });
           }
      });
