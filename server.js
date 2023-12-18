@@ -53,37 +53,77 @@ inquirer
                               });
                          });
                }
+               else if (answers.userChoice === "Add Role") {
+                    inquirer
+                         .prompt([
+                              {
+                                   name: "vJobTitle",
+                                   message: "Please enter the Job Title: ",
+                                   type: "input"
+                              },
+                              {
+                                   name: "vDepartment",
+                                   message: "Please choose the department of the role from the below options: ",
+                                   type: "list",
+                                   choices: ["Sales",
+                                        "Marketing",
+                                        "HR",
+                                        "Administration",
+                                        "Finance",
+                                        "Application Service",
+                                        "Management"
+                                   ]
+                              },
+                              {
+                                   name: "vSalary",
+                                   message: "Please enter the Salary: ",
+                                   type: "input"
+                              }
+                         ])
+                         .then((subRoleAnswers) => {
+                              sql = 'INSERT INTO wt_role (job_title, dept_id, salary) ' +
+                                   'VALUES (?, (SELECT dept_id FROM wt_department WHERE dept_name = ?), ?) ';
+                              
+                              db.query(sql, [subRoleAnswers.vJobTitle, subRoleAnswers.vDepartment, subRoleAnswers.vSalary], (err, result) => {
+                                   if (err) {
+                                        console.log(err);
+                                   } else {
+                                        console.log(`Added ${subRoleAnswers.vJobTitle} to the database`);
+                                   }
+                              });
+                         });     
+               }
                else if (answers.userChoice === "Add Employee") {
                     inquirer
                          .prompt([
-                         {
-                              name: "vFirstName",
-                              message: "Please enter the first name of the employee: ",
-                              type: "input"
-                         },
-                         {
-                              name: "vLastName",
-                              message: "Please enter the last name of the employee: ",
-                              type: "input"
-                         },
-                         {
-                              name: "vEmpRole",
-                              message: "Please choose the role from the below options: ",
-                              type: "list",
-                              choices: ["Sales Consultant",
-                                   "Sales Manager",
-                                   "Marketing Consultant",
-                                   "Marketing Manager",
-                                   "HR Executive",
-                                   "HR Manager",
-                                   "Admin",
-                                   "Accountant",
-                                   "Jr. Web Developer",
-                                   "Sr. Web Developer",
-                                   "Java Developer",
-                                   "Python Developer",
-                                   "Development Manager"
-                                        ]
+                              {
+                                   name: "vFirstName",
+                                   message: "Please enter the first name of the employee: ",
+                                   type: "input"
+                              },
+                              {
+                                   name: "vLastName",
+                                   message: "Please enter the last name of the employee: ",
+                                   type: "input"
+                              },
+                              {
+                                   name: "vEmpRole",
+                                   message: "Please choose the role from the below options: ",
+                                   type: "list",
+                                   choices: ["Sales Consultant",
+                                        "Sales Manager",
+                                        "Marketing Consultant",
+                                        "Marketing Manager",
+                                        "HR Executive",
+                                        "HR Manager",
+                                        "Admin",
+                                        "Accountant",
+                                        "Jr. Web Developer",
+                                        "Sr. Web Developer",
+                                        "Java Developer",
+                                        "Python Developer",
+                                        "Development Manager"
+                                             ]
                               },
                               {
                                    name: "vManagerRole",
