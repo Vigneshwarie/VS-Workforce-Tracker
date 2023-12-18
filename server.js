@@ -65,9 +65,30 @@ inquirer
                                    "Python Developer",
                                    "Development Manager"
                                         ]
-                         }])
+                              },
+                              {
+                                   name: "vManagerRole",
+                                   message: "Please choose the manager below: ",
+                                   type: "list",
+                                   choices: ["Sales Manager",
+                                        "Marketing Manager",
+                                        "HR Manager",
+                                        "Development Manager",
+                                        "Director"
+                                        ]
+                              }
+                         ])
                          .then((subEmpAnswers) => {
-                              console.log(subEmpAnswers.vFirstName);
+                              sql = 'INSERT INTO wt_employee (first_name, last_name, emp_role) ' +
+                                   'VALUES (?, ?, (SELECT role_id FROM wt_role WHERE job_title = ?))';
+                              
+                              db.query(sql, [subEmpAnswers.vFirstName, subEmpAnswers.vLastName, subEmpAnswers.vEmpRole], (err, result) => {
+                                   if (err) {
+                                        console.log(err);
+                                   } else {
+                                        console.log(result);
+                                   }
+                              });
                          });              
                }
                else if (answers.userChoice === "View all Department") {
@@ -92,7 +113,11 @@ inquirer
 
                if (answers.userChoice === "View all Department" || answers.userChoice === "View all Roles" || answers.userChoice === "View all Employees") {
                     db.query(sql, function (err, results) {
-                         return console.table(results);
+                         if (err) {
+                              console.log(err);
+                         } else {
+                              console.table(results);
+                         }    
                     });   
                }                 
           }
