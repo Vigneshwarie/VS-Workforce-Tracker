@@ -5,11 +5,15 @@ const mysql = require('mysql2');
 let sql;
 const questions = [{
           name: "userChoice",
-          message: "Welcome to VS Workforce Tracker!\nPlease choose the options from the below: ",
+          message: "Welcome to VS Workforce Tracker!\nWhat would you like to do? ",
           type: "list",
-     choices: ["View all Department",
-                "View all Roles",
-               "View all Employees"
+     choices: ["Add Employee",
+          "Update Employee Role",
+          "View all Roles",
+          "Add Role",
+          "View all Departments",
+          "Add Department",
+          "View all Employees"
                ]
 }];
      
@@ -23,14 +27,50 @@ inquirer
                const db = mysql.createConnection(
                     {
                          host: 'localhost',
-                         user: '',
-                         password: '',
+                         user: 'vigneswari',
+                         password: 'p@ssword@123',
                          database: 'workforcetracker_db'
                     },
                     console.log(`Connected to the workforcetracker_db database.`)
                );
-
-               if (answers.userChoice === "View all Department") {
+               
+               if (answers.userChoice === "Add Employee") {
+                    inquirer
+                         .prompt([
+                         {
+                              name: "vFirstName",
+                              message: "Please enter the first name of the employee: ",
+                              type: "input"
+                         },
+                         {
+                              name: "vLastName",
+                              message: "Please enter the last name of the employee: ",
+                              type: "input"
+                         },
+                         {
+                              name: "vEmpRole",
+                              message: "Please choose the role from the below options: ",
+                              type: "list",
+                              choices: ["Sales Consultant",
+                                   "Sales Manager",
+                                   "Marketing Consultant",
+                                   "Marketing Manager",
+                                   "HR Executive",
+                                   "HR Manager",
+                                   "Admin",
+                                   "Accountant",
+                                   "Jr. Web Developer",
+                                   "Sr. Web Developer",
+                                   "Java Developer",
+                                   "Python Developer",
+                                   "Development Manager"
+                                        ]
+                         }])
+                         .then((subEmpAnswers) => {
+                              console.log(subEmpAnswers.vFirstName);
+                         });              
+               }
+               else if (answers.userChoice === "View all Department") {
                     sql = 'SELECT dept_id as "Department ID", dept_name as "Department Name" FROM wt_department';                 
                } else if (answers.userChoice === "View all Roles") {
                     sql = 'SELECT a.role_id as "Role ID", a.job_title as "Job Title", b.dept_name as "Department Name", a.salary as "Salary" '+
@@ -50,8 +90,10 @@ inquirer
                               'ORDER BY a.emp_id ';
                }
 
-               db.query(sql, function (err, results) {
-                    return console.table(results);
-               });      
+               if (answers.userChoice === "View all Department" || answers.userChoice === "View all Roles" || answers.userChoice === "View all Employees") {
+                    db.query(sql, function (err, results) {
+                         return console.table(results);
+                    });   
+               }                 
           }
      });
