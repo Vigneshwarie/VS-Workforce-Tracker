@@ -13,6 +13,7 @@ const mainMenu = [
           "View Employees by Manager",
           "View Employees by Department",
           "View Total Utilized Budget",
+          "Delete Department",
           "Exit"
                ]
      }];
@@ -122,4 +123,21 @@ const updateEmpRole = [
           ]
      }];
 
-module.exports = {mainMenu, addDepartment, addRole, addEmployee, updateEmpRole}
+const deleteDepartment = [
+     {
+          name: "vDepartment",
+          message: "Please choose the department from the below options: ",
+          type: "list",
+          choices: ["Sales",
+               "Marketing",
+               "HR",
+               "Administration",
+               "Finance",
+               "Application Service",
+               "Management",
+               "Security",
+               "New Services"
+          ]
+     }];
+
+module.exports = {mainMenu, addDepartment, addRole, addEmployee, updateEmpRole, deleteDepartment}
