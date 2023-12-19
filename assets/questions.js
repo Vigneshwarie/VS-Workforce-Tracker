@@ -11,6 +11,7 @@ const mainMenu = [
            "View all Employees",
           "Update Employee Role",
           "View Employees by Manager",
+          "View Employees by Department",
           "Exit"
                ]
      }];

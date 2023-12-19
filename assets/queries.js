@@ -39,15 +39,24 @@ const viewEmployeeSQL = 'SELECT a.emp_id as "Employee ID", a.first_name as "Firs
                               'left outer JOIN wt_employee e '+
                               'ON d.manager_id = e.emp_id '+
      'ORDER BY a.emp_id ';
-                              
+
+//View Employees by Manager
 const viewEmployeeManagerSQL = 'SELECT CONCAT(b.first_name, " ", b.last_name) as "Employee", CONCAT(c.first_name, " ", c.last_name) as "Manager" '+
                                                             'FROM wt_hierarchy_relation a JOIN wt_employee b '+
                                                             'ON a.emp_id = b.emp_id '+
                                                             'JOIN wt_employee c '+
                                                             'ON a.manager_id = c.emp_id '+
      'ORDER BY b.first_name ASC ';
+
+// View Employees by Department
+const viewEmployeeDepartmentSQL = 'SELECT CONCAT(a.first_name, " ", a.last_name) as "Employee", c.dept_name as "Department" '+
+'FROM wt_employee a JOIN wt_role b '+
+'ON a.emp_role = b.role_id '+
+'JOIN wt_department c '+
+'ON b.dept_id = c.dept_id '+
+'ORDER BY a.first_name ';
                                                             
 
 
-module.exports = {addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL, viewEmployeeManagerSQL };
+module.exports = {addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL, viewEmployeeManagerSQL, viewEmployeeDepartmentSQL };
                                    
