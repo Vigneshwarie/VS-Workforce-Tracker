@@ -50,13 +50,26 @@ const viewEmployeeManagerSQL = 'SELECT CONCAT(b.first_name, " ", b.last_name) as
 
 // View Employees by Department
 const viewEmployeeDepartmentSQL = 'SELECT CONCAT(a.first_name, " ", a.last_name) as "Employee", c.dept_name as "Department" '+
-'FROM wt_employee a JOIN wt_role b '+
-'ON a.emp_role = b.role_id '+
-'JOIN wt_department c '+
-'ON b.dept_id = c.dept_id '+
-'ORDER BY a.first_name ';
+                                                                 'FROM wt_employee a JOIN wt_role b '+
+                                                                 'ON a.emp_role = b.role_id '+
+                                                                 'JOIN wt_department c '+
+                                                                 'ON b.dept_id = c.dept_id '+
+     'ORDER BY a.first_name ';
+                                                                      
+// View the total utilized budget of a department
+const viewBudgetDepartmentSQL = 'SELECT c.dept_name as "Department", SUM(b.salary) as "Budget Utilized" '+
+                                                                 'FROM wt_employee a JOIN wt_role b '+
+                                                                 'ON a.emp_role = b.role_id '+
+                                                                 'JOIN wt_department c '+
+                                                                 'ON b.dept_id = c.dept_id '+
+                                                                 'GROUP BY c.dept_name '+
+     'ORDER BY c.dept_name ';
+                                                                 
+
+
+
                                                             
 
 
-module.exports = {addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL, viewEmployeeManagerSQL, viewEmployeeDepartmentSQL };
+module.exports = {addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL, viewEmployeeManagerSQL, viewEmployeeDepartmentSQL, viewBudgetDepartmentSQL };
                                    

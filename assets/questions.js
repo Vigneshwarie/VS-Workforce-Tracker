@@ -12,6 +12,7 @@ const mainMenu = [
           "Update Employee Role",
           "View Employees by Manager",
           "View Employees by Department",
+          "View Total Utilized Budget",
           "Exit"
                ]
      }];

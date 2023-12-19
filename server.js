@@ -2,7 +2,7 @@
 const inquirer = require("inquirer");
 const mysql = require('mysql2');
 const { mainMenu, addDepartment, addRole, addEmployee, updateEmpRole } = require('./assets/questions');
-const { addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL, viewEmployeeManagerSQL, viewEmployeeDepartmentSQL } = require('./assets/queries');
+const { addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL, viewEmployeeManagerSQL, viewEmployeeDepartmentSQL, viewBudgetDepartmentSQL } = require('./assets/queries');
 
      
 inquirer
@@ -129,6 +129,16 @@ inquirer
                     });  
                } else if (answers.userChoice === "View Employees by Department") {
                     db.query(viewEmployeeDepartmentSQL, function (err, results) {
+                         if (err) {
+                              console.log(err);
+                              quit();
+                         } else {
+                              console.table(results);
+                              quit();
+                         }    
+                    });  
+               } else if (answers.userChoice === "View Total Utilized Budget") {
+                    db.query(viewBudgetDepartmentSQL, function (err, results) {
                          if (err) {
                               console.log(err);
                               quit();
