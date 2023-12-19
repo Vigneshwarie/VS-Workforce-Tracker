@@ -1,7 +1,8 @@
 // Import necessary packages
 const inquirer = require("inquirer");
 const mysql = require('mysql2');
-const {mainMenu, addDepartment, addRole, addEmployee, updateEmpRole} = require('./assets/questions')
+const { mainMenu, addDepartment, addRole, addEmployee, updateEmpRole } = require('./assets/questions');
+const { addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL } = require('./assets/queries');
 
 let sql;
      
@@ -24,9 +25,7 @@ inquirer
                     inquirer
                          .prompt(addDepartment)
                          .then((subDeptAnswers) => { 
-                              sql = 'INSERT INTO wt_department (dept_name) VALUES (?)';
-
-                              db.query(sql, subDeptAnswers.vDeptName, (err, result) => {
+                              db.query(addDepartmentSQL, subDeptAnswers.vDeptName, (err, result) => {
                                    if (err) {
                                         console.log(err);
                                         quit();
@@ -40,11 +39,8 @@ inquirer
                else if (answers.userChoice === "Add Role") {
                     inquirer
                          .prompt(addRole)
-                         .then((subRoleAnswers) => {
-                              sql = 'INSERT INTO wt_role (job_title, dept_id, salary) ' +
-                                   'VALUES (?, (SELECT dept_id FROM wt_department WHERE dept_name = ?), ?) ';
-                              
-                              db.query(sql, [subRoleAnswers.vJobTitle, subRoleAnswers.vDepartment, subRoleAnswers.vSalary], (err, result) => {
+                         .then((subRoleAnswers) => {                      
+                              db.query(addRoleSQL, [subRoleAnswers.vJobTitle, subRoleAnswers.vDepartment, subRoleAnswers.vSalary], (err, result) => {
                                    if (err) {
                                         console.log(err);
                                         quit();
@@ -58,22 +54,15 @@ inquirer
                else if (answers.userChoice === "Add Employee") {
                     inquirer
                          .prompt(addEmployee)
-                         .then((subEmpAnswers) => {
-                              sql = 'INSERT INTO wt_employee (first_name, last_name, emp_role) ' +
-                                   'VALUES (?, ?, (SELECT role_id FROM wt_role WHERE job_title = ?))';
-                              
-                              db.query(sql, [subEmpAnswers.vFirstName, subEmpAnswers.vLastName, subEmpAnswers.vEmpRole], (err, result) => {
+                         .then((subEmpAnswers) => {                    
+                              db.query(addEmployeeSQL, [subEmpAnswers.vFirstName, subEmpAnswers.vLastName, subEmpAnswers.vEmpRole], (err, result) => {
                                    if (err) {
                                         console.log(err);
                                         quit();
                                    } 
                               });
-
-                              sql = 'INSERT INTO wt_hierarchy_relation (emp_id, manager_id) ' +
-                                        'VALUES ((SELECT emp_id FROM wt_employee WHERE first_name = ? AND last_name = ?), ' +
-                                   '(SELECT emp_id FROM wt_employee WHERE emp_role IN (SELECT role_id FROM wt_role WHERE job_title = ?)))';
                               
-                              db.query(sql, [subEmpAnswers.vFirstName, subEmpAnswers.vLastName, subEmpAnswers.vManagerRole], (err, result) => {
+                              db.query(addEmployeeManagerSQL, [subEmpAnswers.vFirstName, subEmpAnswers.vLastName, subEmpAnswers.vManagerRole], (err, result) => {
                                    if (err) {
                                         console.log(err);
                                         quit();
@@ -87,12 +76,8 @@ inquirer
                else if (answers.userChoice === "Update Employee Role") {
                     inquirer
                          .prompt(updateEmpRole)
-                         .then((subUpdateEmpAnswers) => {
-                              sql = 'UPDATE wt_employee ' +
-                                   'SET emp_role = (SELECT role_id FROM wt_role WHERE job_title = ?) ' +
-                                   'WHERE first_name = ? AND last_name = ? ';
-                              
-                              db.query(sql, [subUpdateEmpAnswers.vEmpRole, subUpdateEmpAnswers.vFirstName, subUpdateEmpAnswers.vLastName], (err, result) => {
+                         .then((subUpdateEmpAnswers) => {                             
+                              db.query(updateEmpRoleSQL, [subUpdateEmpAnswers.vEmpRole, subUpdateEmpAnswers.vFirstName, subUpdateEmpAnswers.vLastName], (err, result) => {
                                    if (err) {
                                         console.log(err);
                                         quit();
