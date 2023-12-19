@@ -44,7 +44,7 @@ On successful installation and execution, the application will prompt the user w
 
 ## Credits
 
-N/A
+Referred this link for sample names: https://www.kaggle.com/datasets/williamlucas0/employee-sample-data 
 
 ## License
 
