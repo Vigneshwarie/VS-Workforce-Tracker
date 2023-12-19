@@ -2,9 +2,8 @@
 const inquirer = require("inquirer");
 const mysql = require('mysql2');
 const { mainMenu, addDepartment, addRole, addEmployee, updateEmpRole } = require('./assets/questions');
-const { addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL } = require('./assets/queries');
+const { addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL, viewEmployeeManagerSQL } = require('./assets/queries');
 
-let sql;
      
 inquirer
      .prompt(mainMenu)
@@ -118,7 +117,19 @@ inquirer
                               quit();
                          }    
                     });  
-               }             
+               } else if (answers.userChoice === "View Employees by Manager") {
+                    db.query(viewEmployeeManagerSQL, function (err, results) {
+                         if (err) {
+                              console.log(err);
+                              quit();
+                         } else {
+                              console.table(results);
+                              quit();
+                         }    
+                    });  
+               } else {
+                    quit();
+               }          
           }
      });
 

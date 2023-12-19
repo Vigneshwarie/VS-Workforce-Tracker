@@ -38,8 +38,16 @@ const viewEmployeeSQL = 'SELECT a.emp_id as "Employee ID", a.first_name as "Firs
                               'ON a.emp_id = d.emp_id '+
                               'left outer JOIN wt_employee e '+
                               'ON d.manager_id = e.emp_id '+
-                              'ORDER BY a.emp_id ';
+     'ORDER BY a.emp_id ';
+                              
+const viewEmployeeManagerSQL = 'SELECT CONCAT(b.first_name, " ", b.last_name) as "Employee", CONCAT(c.first_name, " ", c.last_name) as "Manager" '+
+                                                            'FROM wt_hierarchy_relation a JOIN wt_employee b '+
+                                                            'ON a.emp_id = b.emp_id '+
+                                                            'JOIN wt_employee c '+
+                                                            'ON a.manager_id = c.emp_id '+
+     'ORDER BY b.first_name ASC ';
+                                                            
 
 
-module.exports = {addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL };
+module.exports = {addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL, viewEmployeeManagerSQL };
                                    

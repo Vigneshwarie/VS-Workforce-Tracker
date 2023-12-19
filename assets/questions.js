@@ -10,6 +10,7 @@ const mainMenu = [
           "Add Employee",
            "View all Employees",
           "Update Employee Role",
+          "View Employees by Manager",
           "Exit"
                ]
      }];
