@@ -19,6 +19,27 @@ const updateEmpRoleSQL = 'UPDATE wt_employee ' +
                                    'SET emp_role = (SELECT role_id FROM wt_role WHERE job_title = ?) ' +
      'WHERE first_name = ? AND last_name = ? ';
 
+// View all Departments
+const viewDepartmentSQL = 'SELECT dept_id as "Department ID", dept_name as "Department Name" FROM wt_department';  
 
-module.exports = {addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL};
+// View all Roles
+const viewRolesSQL = 'SELECT a.role_id as "Role ID", a.job_title as "Job Title", b.dept_name as "Department Name", a.salary as "Salary" '+
+                                   'FROM wt_role a JOIN wt_department b '+
+                                   'ON a.dept_id = b.dept_id';
+
+// View all Employees
+const viewEmployeeSQL = 'SELECT a.emp_id as "Employee ID", a.first_name as "First Name", a.last_name as "Last Name", '+ 
+                              'b.job_title as "Title", c.dept_name as "Department", b.salary as "Salary", CONCAT(e.first_name, " ", e.last_name) as "Manager" '+
+                              'FROM wt_employee a JOIN wt_role b '+
+                              'ON a.emp_role = b.role_id '+
+                              'JOIN wt_department c '+
+                              'ON b.dept_id = c.dept_id '+
+                              'JOIN wt_hierarchy_relation d '+
+                              'ON a.emp_id = d.emp_id '+
+                              'left outer JOIN wt_employee e '+
+                              'ON d.manager_id = e.emp_id '+
+                              'ORDER BY a.emp_id ';
+
+
+module.exports = {addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL };
                                    
