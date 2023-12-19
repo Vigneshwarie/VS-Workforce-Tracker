@@ -1,27 +1,13 @@
 // Import necessary packages
 const inquirer = require("inquirer");
 const mysql = require('mysql2');
+const {mainMenu, addDepartment, addRole, addEmployee, updateEmpRole} = require('./assets/questions')
 
 let sql;
-const questions = [{
-          name: "userChoice",
-          message: "Welcome to VS Workforce Tracker!\nWhat would you like to do? ",
-          type: "list",
-     choices: ["Add Department",
-          "View all Departments",
-          "Add Role",
-          "View all Roles",
-          "Add Employee",
-           "View all Employees",
-          "Update Employee Role"
-               ]
-}];
      
 inquirer
-     .prompt(questions)
+     .prompt(mainMenu)
      .then((answers) => {
-          console.log(answers.userChoice)
-
           if (answers.userChoice) {
                // Connect to database
                const db = mysql.createConnection(
@@ -36,50 +22,24 @@ inquirer
                
                if (answers.userChoice === "Add Department") {
                     inquirer
-                         .prompt([{
-                              name: "vDeptName",
-                              message: "Please enter the name of the department: ",
-                              type: "input"
-                         }])
+                         .prompt(addDepartment)
                          .then((subDeptAnswers) => { 
                               sql = 'INSERT INTO wt_department (dept_name) VALUES (?)';
 
                               db.query(sql, subDeptAnswers.vDeptName, (err, result) => {
                                    if (err) {
                                         console.log(err);
+                                        quit();
                                    } else {
                                         console.log(`Added ${subDeptAnswers.vDeptName} to the database`);
+                                        quit();
                                    }
                               });
                          });
                }
                else if (answers.userChoice === "Add Role") {
                     inquirer
-                         .prompt([
-                              {
-                                   name: "vJobTitle",
-                                   message: "Please enter the Job Title: ",
-                                   type: "input"
-                              },
-                              {
-                                   name: "vDepartment",
-                                   message: "Please choose the department of the role from the below options: ",
-                                   type: "list",
-                                   choices: ["Sales",
-                                        "Marketing",
-                                        "HR",
-                                        "Administration",
-                                        "Finance",
-                                        "Application Service",
-                                        "Management"
-                                   ]
-                              },
-                              {
-                                   name: "vSalary",
-                                   message: "Please enter the Salary: ",
-                                   type: "input"
-                              }
-                         ])
+                         .prompt(addRole)
                          .then((subRoleAnswers) => {
                               sql = 'INSERT INTO wt_role (job_title, dept_id, salary) ' +
                                    'VALUES (?, (SELECT dept_id FROM wt_department WHERE dept_name = ?), ?) ';
@@ -87,56 +47,17 @@ inquirer
                               db.query(sql, [subRoleAnswers.vJobTitle, subRoleAnswers.vDepartment, subRoleAnswers.vSalary], (err, result) => {
                                    if (err) {
                                         console.log(err);
+                                        quit();
                                    } else {
                                         console.log(`Added ${subRoleAnswers.vJobTitle} to the database`);
+                                        quit();
                                    }
                               });
                          });     
                }
                else if (answers.userChoice === "Add Employee") {
                     inquirer
-                         .prompt([
-                              {
-                                   name: "vFirstName",
-                                   message: "Please enter the first name of the employee: ",
-                                   type: "input"
-                              },
-                              {
-                                   name: "vLastName",
-                                   message: "Please enter the last name of the employee: ",
-                                   type: "input"
-                              },
-                              {
-                                   name: "vEmpRole",
-                                   message: "Please choose the role from the below options: ",
-                                   type: "list",
-                                   choices: ["Sales Consultant",
-                                        "Sales Manager",
-                                        "Marketing Consultant",
-                                        "Marketing Manager",
-                                        "HR Executive",
-                                        "HR Manager",
-                                        "Admin",
-                                        "Accountant",
-                                        "Jr. Web Developer",
-                                        "Sr. Web Developer",
-                                        "Java Developer",
-                                        "Python Developer",
-                                        "Development Manager"
-                                             ]
-                              },
-                              {
-                                   name: "vManagerRole",
-                                   message: "Please choose the manager below: ",
-                                   type: "list",
-                                   choices: ["Sales Manager",
-                                        "Marketing Manager",
-                                        "HR Manager",
-                                        "Development Manager",
-                                        "Director"
-                                        ]
-                              }
-                         ])
+                         .prompt(addEmployee)
                          .then((subEmpAnswers) => {
                               sql = 'INSERT INTO wt_employee (first_name, last_name, emp_role) ' +
                                    'VALUES (?, ?, (SELECT role_id FROM wt_role WHERE job_title = ?))';
@@ -144,9 +65,8 @@ inquirer
                               db.query(sql, [subEmpAnswers.vFirstName, subEmpAnswers.vLastName, subEmpAnswers.vEmpRole], (err, result) => {
                                    if (err) {
                                         console.log(err);
-                                   } else {
-                                        console.log(result);
-                                   }
+                                        quit();
+                                   } 
                               });
 
                               sql = 'INSERT INTO wt_hierarchy_relation (emp_id, manager_id) ' +
@@ -156,46 +76,18 @@ inquirer
                               db.query(sql, [subEmpAnswers.vFirstName, subEmpAnswers.vLastName, subEmpAnswers.vManagerRole], (err, result) => {
                                    if (err) {
                                         console.log(err);
+                                        quit();
                                    } else {
-                                        console.log(result);
+                                        console.log(`Added ${subEmpAnswers.vFirstName} ${subEmpAnswers.vLastName} to the database`);
+                                        quit();
                                    }
                               });
                          });              
                }
                else if (answers.userChoice === "Update Employee Role") {
                     inquirer
-                         .prompt([
-                              {
-                                   name: "vFirstName",
-                                   message: "Please enter the first name of the employee: ",
-                                   type: "input"
-                              },
-                              {
-                                   name: "vLastName",
-                                   message: "Please enter the last name of the employee: ",
-                                   type: "input"
-                              },
-                              {
-                                   name: "vEmpRole",
-                                   message: "Please choose the role from the below options: ",
-                                   type: "list",
-                                   choices: ["Sales Consultant",
-                                        "Sales Manager",
-                                        "Marketing Consultant",
-                                        "Marketing Manager",
-                                        "HR Executive",
-                                        "HR Manager",
-                                        "Admin",
-                                        "Accountant",
-                                        "Jr. Web Developer",
-                                        "Sr. Web Developer",
-                                        "Java Developer",
-                                        "Python Developer",
-                                        "Development Manager"
-                                             ]
-                              }
-                         ])
-                         .then((subUpdateEmpAnswers) => { 
+                         .prompt(updateEmpRole)
+                         .then((subUpdateEmpAnswers) => {
                               sql = 'UPDATE wt_employee ' +
                                    'SET emp_role = (SELECT role_id FROM wt_role WHERE job_title = ?) ' +
                                    'WHERE first_name = ? AND last_name = ? ';
@@ -203,14 +95,15 @@ inquirer
                               db.query(sql, [subUpdateEmpAnswers.vEmpRole, subUpdateEmpAnswers.vFirstName, subUpdateEmpAnswers.vLastName], (err, result) => {
                                    if (err) {
                                         console.log(err);
+                                        quit();
                                    } else {
                                         console.log(`Updated ${subUpdateEmpAnswers.vEmpRole} to the database`);
+                                        quit();
                                    }
                               });
                          });
-
                }
-               else if (answers.userChoice === "View all Department") {
+               else if (answers.userChoice === "View all Departments") {
                     sql = 'SELECT dept_id as "Department ID", dept_name as "Department Name" FROM wt_department';                 
                } else if (answers.userChoice === "View all Roles") {
                     sql = 'SELECT a.role_id as "Role ID", a.job_title as "Job Title", b.dept_name as "Department Name", a.salary as "Salary" '+
@@ -230,14 +123,21 @@ inquirer
                               'ORDER BY a.emp_id ';
                }
 
-               if (answers.userChoice === "View all Department" || answers.userChoice === "View all Roles" || answers.userChoice === "View all Employees") {
+               if (answers.userChoice === "View all Departments" || answers.userChoice === "View all Roles" || answers.userChoice === "View all Employees") {
                     db.query(sql, function (err, results) {
                          if (err) {
                               console.log(err);
+                              quit();
                          } else {
                               console.table(results);
+                              quit();
                          }    
                     });   
                }                 
           }
      });
+
+// Exit application
+function quit() {
+     process.exit();
+}
