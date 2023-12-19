@@ -7,13 +7,13 @@ const questions = [{
           name: "userChoice",
           message: "Welcome to VS Workforce Tracker!\nWhat would you like to do? ",
           type: "list",
-     choices: ["Add Employee",
-          "Update Employee Role",
-          "View all Roles",
-          "Add Role",
+     choices: ["Add Department",
           "View all Departments",
-          "Add Department",
-          "View all Employees"
+          "Add Role",
+          "View all Roles",
+          "Add Employee",
+           "View all Employees",
+          "Update Employee Role"
                ]
 }];
      
@@ -161,6 +161,54 @@ inquirer
                                    }
                               });
                          });              
+               }
+               else if (answers.userChoice === "Update Employee Role") {
+                    inquirer
+                         .prompt([
+                              {
+                                   name: "vFirstName",
+                                   message: "Please enter the first name of the employee: ",
+                                   type: "input"
+                              },
+                              {
+                                   name: "vLastName",
+                                   message: "Please enter the last name of the employee: ",
+                                   type: "input"
+                              },
+                              {
+                                   name: "vEmpRole",
+                                   message: "Please choose the role from the below options: ",
+                                   type: "list",
+                                   choices: ["Sales Consultant",
+                                        "Sales Manager",
+                                        "Marketing Consultant",
+                                        "Marketing Manager",
+                                        "HR Executive",
+                                        "HR Manager",
+                                        "Admin",
+                                        "Accountant",
+                                        "Jr. Web Developer",
+                                        "Sr. Web Developer",
+                                        "Java Developer",
+                                        "Python Developer",
+                                        "Development Manager"
+                                             ]
+                              }
+                         ])
+                         .then((subUpdateEmpAnswers) => { 
+                              sql = 'UPDATE wt_employee ' +
+                                   'SET emp_role = (SELECT role_id FROM wt_role WHERE job_title = ?) ' +
+                                   'WHERE first_name = ? AND last_name = ? ';
+                              
+                              db.query(sql, [subUpdateEmpAnswers.vEmpRole, subUpdateEmpAnswers.vFirstName, subUpdateEmpAnswers.vLastName], (err, result) => {
+                                   if (err) {
+                                        console.log(err);
+                                   } else {
+                                        console.log(`Updated ${subUpdateEmpAnswers.vEmpRole} to the database`);
+                                   }
+                              });
+                         });
+
                }
                else if (answers.userChoice === "View all Department") {
                     sql = 'SELECT dept_id as "Department ID", dept_name as "Department Name" FROM wt_department';                 
