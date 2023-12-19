@@ -14,6 +14,7 @@ const mainMenu = [
           "View Employees by Department",
           "View Total Utilized Budget",
           "Delete Department",
+          "Delete Role",
           "Exit"
                ]
      }];
@@ -140,4 +141,27 @@ const deleteDepartment = [
           ]
      }];
 
-module.exports = {mainMenu, addDepartment, addRole, addEmployee, updateEmpRole, deleteDepartment}
+const deleteRole = [
+     {
+          name: "vRole",
+          message: "Please choose the role to delete from the below options: ",
+          type: "list",
+          choices: ["Sales Consultant",
+               "Sales Manager",
+               "Marketing Consultant",
+               "Marketing Manager",
+               "HR Executive",
+               "HR Manager",
+               "Admin",
+               "Accountant",
+               "Jr. Web Developer",
+               "Sr. Web Developer",
+               "Java Developer",
+               "Python Developer",
+               "Development Manager",
+               "Dot Net Developer",
+               "SQL Developer"
+          ]
+     }];
+
+module.exports = {mainMenu, addDepartment, addRole, addEmployee, updateEmpRole, deleteDepartment, deleteRole}

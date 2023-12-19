@@ -1,8 +1,8 @@
 // Import necessary packages
 const inquirer = require("inquirer");
 const mysql = require('mysql2');
-const { mainMenu, addDepartment, addRole, addEmployee, updateEmpRole, deleteDepartment } = require('./assets/questions');
-const { addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL, viewEmployeeManagerSQL, viewEmployeeDepartmentSQL, viewBudgetDepartmentSQL, deleteDepartmentSQL } = require('./assets/queries');
+const { mainMenu, addDepartment, addRole, addEmployee, updateEmpRole, deleteDepartment, deleteRole } = require('./assets/questions');
+const { addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL, viewEmployeeManagerSQL, viewEmployeeDepartmentSQL, viewBudgetDepartmentSQL, deleteDepartmentSQL, deleteRoleSQL } = require('./assets/queries');
 
      
 inquirer
@@ -157,6 +157,20 @@ inquirer
                                         quit();
                                    } else {
                                         console.log(`Deleted ${subDeleteDepartmentAnswers.vDepartment} from the database`);
+                                        quit();
+                                   }
+                              });
+                         });
+               } else if (answers.userChoice === "Delete Role") {
+                    inquirer
+                         .prompt(deleteRole)
+                         .then((subDeleteRoleAnswers) => {                             
+                              db.query(deleteRoleSQL, [subDeleteRoleAnswers.vRole], (err, result) => {
+                                   if (err) {
+                                        console.log(err);
+                                        quit();
+                                   } else {
+                                        console.log(`Deleted ${subDeleteRoleAnswers.vRole} from the database`);
                                         quit();
                                    }
                               });

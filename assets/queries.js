@@ -67,6 +67,9 @@ const viewBudgetDepartmentSQL = 'SELECT c.dept_name as "Department", SUM(b.salar
 
 // Delete Department
 const deleteDepartmentSQL = 'DELETE FROM wt_department  WHERE dept_name = ? ';
+
+// Delete Role
+const deleteRoleSQL = 'DELETE FROM wt_role  WHERE job_title = ? ';
                                                                  
 
 
@@ -74,5 +77,5 @@ const deleteDepartmentSQL = 'DELETE FROM wt_department  WHERE dept_name = ? ';
                                                             
 
 
-module.exports = {addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL, viewEmployeeManagerSQL, viewEmployeeDepartmentSQL, viewBudgetDepartmentSQL, deleteDepartmentSQL };
+module.exports = {addDepartmentSQL, addRoleSQL, addEmployeeSQL, addEmployeeManagerSQL, updateEmpRoleSQL, viewDepartmentSQL, viewRolesSQL, viewEmployeeSQL, viewEmployeeManagerSQL, viewEmployeeDepartmentSQL, viewBudgetDepartmentSQL, deleteDepartmentSQL, deleteRoleSQL };
                                    
